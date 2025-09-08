@@ -14,10 +14,10 @@ const UserModel = {
     console.log(result.rows);
     return result.rows;
   },
-  getUserById: async (userData) => {
-    const { id } = userData;
-    const result = await pool.query(`SELECT * FROM users WHERE id = ${id}`, [
-      id,
+  getUserByPin: async (userData) => {
+    const { pin } = userData;
+    const result = await pool.query(`SELECT * FROM users WHERE pin = $1`, [
+      pin,
     ]);
     return result.rows[0];
   },

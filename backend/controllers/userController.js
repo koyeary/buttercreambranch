@@ -24,10 +24,9 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch Users" });
   }
 };
-exports.getUserById = async (req, res) => {
+exports.getUserByPin = async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await UserModel.getUserById(id);
+    const user = await UserModel.getUserByPin(req.body);
     if (user) {
       res.status(200).json(user);
     } else {
