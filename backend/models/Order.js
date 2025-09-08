@@ -12,9 +12,19 @@ const OrderModel = {
       quantity,
       contact,
       due,
+      created_at,
     } = orderData;
     const result = await pool.query(
-      "INSERT INTO orders (id, status, type, size, modifications, customer_name, quantity, contact, due) VALUES ($1, $2, $3, $4) RETURNING *",
+      `INSERT INTO orders ( id,
+      status,
+      type,
+      size,
+      modifications,
+      customer_name,
+      quantity,
+      contact,
+      due,
+      created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
       [
         id,
         status,
@@ -25,62 +35,67 @@ const OrderModel = {
         quantity,
         contact,
         due,
+        created_at,
       ]
     );
-    return result.rows[0];
+
+    return result;
   },
 
-  getOrders: async () => {
+  getAllOrders: async () => {
+    const result = await pool.query(`SELECT * FROM orders ORDER BY due ASC`);
+    return result.rows;
+  },
+
+  getOrderByCustomerName: async (customer_name) => {
     const result = await pool.query(
-      "SELECT * FROM orders ORDER BY created_at DESC"
+      `SELECT * FROM orders WHERE customer_name = $1 `,
+      [customer_name]
     );
     return result.rows;
   },
 
   getOrderById: async (id) => {
-    const result = await pool.query("SELECT * FROM orders WHERE id = $1", [id]);
+    console.log("get orders by id: model");
+    const result = await pool.query(`SELECT * FROM orders WHERE id = $1`, [id]);
     return result.rows[0];
   },
 
-  getOrdersByStatus: async (status) => {
+  getOrdersByStatus: async (orderData) => {
+    const { status } = orderData;
     const result = await pool.query(
-      "SELECT * FROM orders WHERE status = $1 ORDER BY created_at DESC",
+      `SELECT * FROM orders WHERE status = $1 ORDER BY created_at DESC`,
       [status]
-    );
-    return result.rows;
-  },
-
-  getOrdersByCustomerName: async (customer_name) => {
-    const result = await pool.query(
-      "SELECT * FROM orders WHERE customer_name ILIKE $1 ORDER BY created_at DESC",
-      [`%${customer_name}%`]
     );
     return result.rows;
   },
 
   getOrdersByDateRange: async (start_date, end_date) => {
     const result = await pool.query(
-      "SELECT * FROM orders WHERE created_at BETWEEN $1 AND $2 ORDER BY created_at DESC",
+      `SELECT * FROM orders WHERE created_at BETWEEN $1 AND $2 ORDER BY created_at DESC`,
       [start_date, end_date]
     );
     return result.rows;
   },
 
-  updateOrderStatus: async (id, status) => {
+  updateOrderStatus: async (status, id) => {
+    console.log(status, id);
+    console.log("hit order model");
     const result = await pool.query(
-      "UPDATE orders SET status = $1 WHERE id = $2 RETURNING *",
+      `UPDATE orders SET status = $1 WHERE id = $2 RETURNING *`,
       [status, id]
     );
-    return result.rows[0];
+    return result.rows;
   },
 
   updateOrder: async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    //const errors = validationResult(req);
+    /*   if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
-    }
+    } */
 
     const { id } = req.params;
+    console.log(req.params);
     const {
       status,
       type,

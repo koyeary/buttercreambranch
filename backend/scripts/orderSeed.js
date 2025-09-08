@@ -1,7 +1,8 @@
 const { Client } = require("pg");
+require("dotenv").config();
 
 const client = new Client({
-  connectionString: `postgres://postgres:@1noORd3en@localhost:5432/kds_db`,
+  connectionString: `${process.env.CONNECTION_STRING}`,
 });
 
 const orders = [
@@ -117,5 +118,4 @@ async function seedOrders() {
   }
 }
 
-seedOrders();
 module.exports = seedOrders;

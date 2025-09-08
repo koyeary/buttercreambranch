@@ -1,7 +1,9 @@
+// next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Example: Enable typed routes for better type safety with links
+  typedRoutes: true,
 };
 
 export default nextConfig;
