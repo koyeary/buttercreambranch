@@ -19,8 +19,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const PORT = process.env.PORT || 3001;
-
+const PORT2 = process.env.PORT2 || 8080;
 app.listen(PORT, () => {
   pool.connect();
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+  console.log(
+    `🌎  ==> API Server now listening on PORT ${PORT}, Webhook listening on ${PORT2}!`
+  );
 });

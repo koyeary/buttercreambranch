@@ -1,6 +1,6 @@
 const express = require("express");
-const { payment } = require("../../handlers/webhookHandler");
+const { listenAllOrders } = require("../../handlers/webhookHandler");
 const router = express.Router();
 
-router.get("/webhooks/square", payment);
+router.get("/webhooks/square", listenAllOrders);
 module.exports = router;
