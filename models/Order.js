@@ -15,7 +15,7 @@ const OrderModel = {
       created_at,
     } = orderData;
     const result = await pool.query(
-      `INSERT INTO orders ( id,
+      `INSERT INTO orders ( 
       status,
       type,
       size,
@@ -24,9 +24,8 @@ const OrderModel = {
       quantity,
       contact,
       due,
-      created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+      created_at) VALUES ($2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
       [
-        id,
         status,
         type,
         size,

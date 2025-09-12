@@ -2,10 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const routes = require("./routes");
 const pool = require("./db");
-
 const app = express();
+const cors = require("cors");
 
 //Middleware
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

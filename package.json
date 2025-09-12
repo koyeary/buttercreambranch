@@ -7,7 +7,7 @@
     "start": "node server.js",
     "seed": "node scripts/index.js",
     "server": "nodemon server",
-    "client": "npm start --prefix client",
+    "client": "cd client && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "cd client && npm run build",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install --prefix client && npm run build --prefix client"
@@ -24,15 +24,23 @@
   "homepage": "https://github.com/koyeary/buttercreambranch#readme",
   "dependencies": {
     "axios": "^1.11.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "express-sessions": "^1.0.6",
     "express-validator": "^7.2.1",
+    "lucide-react": "^0.544.0",
     "mongodb": "^6.18.0",
     "mongoose": "^8.18.0",
     "node-postgres": "^0.6.2",
     "node-thermal-printer": "^4.5.0",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "pg-pool": "^3.10.1",
+    "radix-ui": "^1.4.3",
+    "square": "^43.0.2",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "concurrently": "^9.2.0",

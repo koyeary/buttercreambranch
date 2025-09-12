@@ -1,5 +1,4 @@
 const OrderModel = require("../models/Order");
-//const { validationResult } = require("express-validator");
 
 exports.createOrder = async (req, res) => {
   try {
@@ -14,6 +13,7 @@ exports.createOrder = async (req, res) => {
 exports.getAllOrders = async (req, res) => {
   try {
     const orders = await OrderModel.getAllOrders();
+
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch orders" });

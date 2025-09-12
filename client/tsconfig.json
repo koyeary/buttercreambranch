@@ -29,7 +29,8 @@
     ".next/types/**/*.ts",
     "next.config.js",
     "next.config.ts",
-    "src/components/QueryProvider.jsx"
+    "src/components/QueryProvider.jsx",
+    "src/components/OrderDisplay.jsx"
   ],
   "exclude": ["node_modules"]
 }
