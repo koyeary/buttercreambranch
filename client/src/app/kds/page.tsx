@@ -1,9 +1,11 @@
-import React from "react";
+import Header from "@/components/Header";
+import OrderDisplay from "@/components/OrderDisplay";
 
-const KDS: React.FC = () => {
+const KDS = () => {
   return (
-    <div>
-      <h1>KDS</h1>
+    <div className="space-y-4 p-6">
+      <Header />
+      <OrderDisplay />
     </div>
   );
 };

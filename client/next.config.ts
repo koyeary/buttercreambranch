@@ -1,8 +1,8 @@
 // next.config.ts
 import type { NextConfig } from "next";
-
+import path from "path";
 const nextConfig: NextConfig = {
-  // Example: Enable typed routes for better type safety with links
+  outputFileTracingRoot: path.join(__dirname, "./"),
   typedRoutes: true,
 };
 
