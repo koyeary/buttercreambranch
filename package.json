@@ -9,8 +9,8 @@
     "server": "nodemon server",
     "client": "cd client && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "cd client && npm run build",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install --prefix client && npm run build --prefix client"
+    "build": "next build",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
     "lucide-react": "^0.544.0",
     "mongodb": "^6.18.0",
     "mongoose": "^8.18.0",
+    "next": "^15.5.3",
     "node-postgres": "^0.6.2",
     "node-thermal-printer": "^4.5.0",
     "pg": "^8.16.3",
