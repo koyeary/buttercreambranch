@@ -16,7 +16,7 @@ interface Order {
   created_at: Date;
 }
 
-const formatDate = (due) => {
+const formatDate = (due: string | number | Date) => {
   const date = new Date(due);
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -34,7 +34,7 @@ const OrderDisplay = () => {
 
   const pending = data.filter((order: Order) => order.status === "pending");
   const ready = data.filter((order: Order) => order.status === "ready");
-  const complete = data.filter((order: Order) => order.status === "complete");
+  //const complete = data.filter((order: Order) => order.status === "complete");
 
   return (
     <div className="grid grid-cols-2 gap-6">

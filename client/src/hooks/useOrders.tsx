@@ -1,10 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 
-type Order = {
-  status: string;
-  // add other fields as needed
-};
-
 const fetchOrders = async () => {
   const res = await fetch("http://localhost:3001/api/orders");
 

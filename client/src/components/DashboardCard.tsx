@@ -8,7 +8,7 @@ interface DashboardCardProps {
   status: string;
   order: {
     id: string | number;
-    orderId: string;
+    /*    orderId: string; */
     items: string;
     quantity: number;
     notes: string;

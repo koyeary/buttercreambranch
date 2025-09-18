@@ -4,7 +4,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useUsers } from "@/hooks/useUsers";
-import { authenticateUser } from "@/utils/API";
+//import { authenticateUser } from "@/utils/API";
 import KeyPad from "@/features/signIn/KeyPad";
 
 const Home: React.FC = () => {
@@ -53,6 +53,9 @@ const Home: React.FC = () => {
 
     setPin("");
   };
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading user profiles.</p>;
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 h-full">
