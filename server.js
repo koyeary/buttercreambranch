@@ -23,6 +23,7 @@ const PORT = process.env.PORT || 3001;
 pool.connect().then(() => {
   console.log("🌟  Database connected!");
 });
+
 app.listen(PORT, () => {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}`);
 });
