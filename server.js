@@ -24,21 +24,8 @@ app.prepare().then(() => {
 
   pool.connect();
 
-  // ✅ API routes FIRST
-  server.use(
-    "/api",
-    (req, res, nextMiddleware) => {
-      console.log("→ Handling with Express API");
-      nextMiddleware();
-    },
-    routes
-  );
-
-  // ✅ Next.js catch-all LAST
-  server.all(/.*/, (req, res) => {
-    console.log("→ Handling with Next.js");
-    return handle(req, res);
-  });
+  server.use("/api", routes); // Express API
+  server.all(/.*/, (req, res) => handle(req, res)); // Next.js fallback
 
   const port = process.env.PORT || 3000;
   server.listen(port, () => console.log(`Server running on port ${port}`));
