@@ -25,24 +25,3 @@ app.prepare().then(() => {
   const port = process.env.PORT || 3000;
   server.listen(port, () => console.log(`Server ready on port ${port}`));
 });
-/* 
-require("dotenv").config();
-const express = require("express");
-const routes = require("./routes");
-//const pool = require("./db");
-const app = express();
-const cors = require("cors");
-
-//Middleware
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-// API routes
-app.use(routes);
-
-const PORT = process.env.PORT || 3001;
-
-app.listen(PORT, () => {
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}`);
-}); */
