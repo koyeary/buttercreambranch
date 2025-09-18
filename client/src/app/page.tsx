@@ -4,6 +4,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useUsers } from "@/hooks/useUsers";
+import { authenticateUser } from "@/utils/API";
 import KeyPad from "@/features/signIn/KeyPad";
 
 const Home: React.FC = () => {
@@ -38,7 +39,8 @@ const Home: React.FC = () => {
 
   const handleSubmit = () => {
     const users = data;
-
+    console.log(users);
+    // authenticateUser(pin);
     if (users.find((user: User) => user.pin === pin)) {
       router.push("/kds");
     }

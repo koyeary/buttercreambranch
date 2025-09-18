@@ -16,6 +16,12 @@ const Header = () => {
             <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
             Live
           </Badge> */}
+        <Button size="sm" variant="default">
+          Test Square
+        </Button>
+        <Button size="sm" variant="default">
+          Test Print
+        </Button>
         <Button size="sm">
           <Plus className="w-4 h-4 mr-2" />
           New Order

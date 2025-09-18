@@ -85,6 +85,7 @@ const seedOrders = async () => {
       DROP TABLE IF EXISTS orders;
       CREATE TABLE orders (
         id SERIAL PRIMARY KEY,
+        orderId VARCHAR(100) NOT NULL,
         due TIMESTAMP,
         status VARCHAR(20) NOT NULL,
         items VARCHAR(100) NOT NULL,
@@ -102,6 +103,7 @@ const seedOrders = async () => {
 
     // Insert 50 seed rows
     for (let i = 0; i < 50; i++) {
+      const orderId = `order_${Math.random().toString(36).substring(2, 10)}`;
       const first = firstNames[Math.floor(Math.random() * firstNames.length)];
       const last = lastNames[Math.floor(Math.random() * lastNames.length)];
       const customerName = `${first} ${last}`;
@@ -125,9 +127,10 @@ const seedOrders = async () => {
       );
 
       await client.query(
-        `INSERT INTO orders (due, status, items, size, notes, quantity, price, customer_name, contact)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+        `INSERT INTO orders (orderId, due, status, items, size, notes, quantity, price, customer_name, contact)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
         [
+          orderId,
           due,
           status,
           items,

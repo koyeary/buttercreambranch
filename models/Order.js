@@ -3,42 +3,58 @@ const pool = require("../db");
 const OrderModel = {
   createOrder: async (orderData) => {
     const {
-      id,
-      status,
-      type,
-      size,
-      modifications,
-      customer_name,
-      quantity,
-      contact,
+      orderId,
       due,
+      status,
+      items,
+      size,
+      notes,
+      quantity,
+      price,
+      customer_name,
+      contact,
       created_at,
     } = orderData;
     const result = await pool.query(
-      `INSERT INTO orders ( 
+      `INSERT INTO orders (
+      orderId,
+       due,
       status,
-      type,
+      items,
       size,
-      modifications,
-      customer_name,
+      notes,
       quantity,
+      price,
+      customer_name,
       contact,
-      due,
-      created_at) VALUES ($2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+      created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
       [
-        status,
-        type,
-        size,
-        modifications,
-        customer_name,
-        quantity,
-        contact,
+        orderId,
         due,
+        status,
+        items,
+        size,
+        notes,
+        quantity,
+        price,
+        customer_name,
+        contact,
         created_at,
       ]
     );
 
     return result;
+  },
+
+  upsertOrder: async (order) => {
+    await pool.query(
+      `INSERT INTO orders (id, created_at)
+     VALUES ($1, $2)
+     ON CONFLICT (id) DO UPDATE
+     SET customer_name = EXCLUDED.customer_name,
+         total = EXCLUDED.total`,
+      [order.id, order.created_at]
+    );
   },
 
   getAllOrders: async () => {
@@ -54,16 +70,17 @@ const OrderModel = {
     return result.rows;
   },
 
-  getOrderById: async (id) => {
-    console.log("get orders by id: model");
+  getOrderById: async (req) => {
+    const { id } = req.params;
     const result = await pool.query(`SELECT * FROM orders WHERE id = $1`, [id]);
     return result.rows[0];
   },
 
-  getOrdersByStatus: async (orderData) => {
-    const { status } = orderData;
+  getOrdersByStatus: async (req) => {
+    const { status } = req.body;
+    console.log("model", status);
     const result = await pool.query(
-      `SELECT * FROM orders WHERE status = $1 ORDER BY created_at DESC`,
+      `SELECT * FROM orders WHERE status = $1 ORDER BY created_at ASC`,
       [status]
     );
     return result.rows;
@@ -77,58 +94,65 @@ const OrderModel = {
     return result.rows;
   },
 
-  updateOrderStatus: async (status, id) => {
-    console.log(status, id);
-    console.log("hit order model");
+  updateOrderStatus: async (id, status) => {
     const result = await pool.query(
-      `UPDATE orders SET status = $1 WHERE id = $2 RETURNING *`,
-      [status, id]
+      `UPDATE orders SET status = $2 WHERE id = $1 RETURNING *`,
+      [id, status]
     );
-    return result.rows;
+    return result;
   },
 
   updateOrder: async (req, res) => {
+    const { id } = req.params;
     //const errors = validationResult(req);
     /*   if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     } */
 
-    const { id } = req.params;
+    const item = getOrderById(orderId);
+    console.log(item);
     console.log(req.params);
     const {
-      status,
-      type,
-      size,
-      modifications,
-      customer_name,
-      quantity,
-      contact,
+      orderId,
       due,
-    } = req.body;
+      status,
+      items,
+      size,
+      notes,
+      quantity,
+      price,
+      customer_name,
+      contact,
+    } = item;
 
     try {
       const result = await pool.query(
         `UPDATE orders
-       SET status = COALESCE($1, status),
-           type = COALESCE($3, type),
-           customer_name = COALESCE($2, customer_name),
-           size = COALESCE($4, size),
-           modifications = COALESCE($5, modifications),
-           quantity = COALESCE($6, quantity),
-           contact = COALESCE($7, contact),
-           due = COALESCE($8, due),
-       WHERE id = $7
+      SET
+
+       due = COALESCE($2, due),
+           status = COALESCE($3, status),
+           items = COALESCE($4, items),
+           size = COALESCE($5, size),
+           notes = COALESCE($6, notes),
+           quantity = COALESCE($7, quantity),
+           price = COALESCE($8, price),
+           customer_name = COALESCE($9, customer_name),
+           contact = COALESCE($10, contact),
+       WHERE orderId = $1
        RETURNING *`,
         [
-          id,
-          status,
-          type,
-          size,
-          modifications,
-          customer_name,
-          quantity,
-          contact,
+          orderId,
           due,
+          status,
+          items,
+          size,
+          notes,
+          quantity,
+          price,
+          customer_name,
+          contact,
+          id,
         ]
       );
 
@@ -142,7 +166,8 @@ const OrderModel = {
     }
   },
 
-  deleteOrder: async (id) => {
+  deleteOrder: async (req) => {
+    const { id } = req.params;
     const result = await pool.query(
       "DELETE FROM orders WHERE id = $1 RETURNING *",
       [id]

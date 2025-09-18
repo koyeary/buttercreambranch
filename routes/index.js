@@ -3,7 +3,7 @@ const router = express.Router();
 const orderRoutes = require("./api/orders");
 const userRoutes = require("./api/users");
 const itemRoutes = require("./api/items");
-const webhookRoutes = require("./api/webhook");
+const webhookRoutes = require("./api/webhooks");
 
 router.use("/api", itemRoutes);
 router.use("/api", orderRoutes);

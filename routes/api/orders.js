@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   createOrder,
   getAllOrders,
+  getOrdersByStatus,
   getOrderByCustomerName,
   getOrderById,
   updateOrder,
@@ -13,17 +14,19 @@ const {
 
 // GET
 router.get("/orders", getAllOrders); //Get all orders
+router.get("/orders/get_one/:id", getOrderById); // Retrieve order by ID
 
 // POST
 router.post("/orders/create", createOrder); //Create order
 router.post("/orders/name", getOrderByCustomerName); //Retrieve orders by customer name
-router.post("/orders/id", getOrderById); // Retrieve order by ID
+
+//router.post("/orders/status", getOrdersByStatus); // Retrieve orders by Status
 
 // PUT
-router.put("/orders/", updateOrder); //Update single order
-router.put("/orders/status/:id", updateOrderStatus); //Update order status
+//router.put("/orders/:id", updateOrder); //Update single order
+router.put("/orders/status/update", updateOrderStatus); //Update order status
 
 // DELETE
-router.delete("/orders", deleteOrder); //Delete order(s)
+router.delete("/orders/:id", deleteOrder); //Delete order(s)
 
 module.exports = router;

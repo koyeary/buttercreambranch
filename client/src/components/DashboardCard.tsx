@@ -1,13 +1,14 @@
 import React from "react";
 import { Button } from "./ui/Button";
 import { Card } from "./ui/Card";
-import { updateOrder } from "@/utils/API";
+import { updateOrderStatus } from "@/utils/API";
 
 interface DashboardCardProps {
   formatDate: (date: string | Date) => string;
   status: string;
   order: {
     id: string | number;
+    orderId: string;
     items: string;
     quantity: number;
     notes: string;
@@ -31,10 +32,11 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       : "border-l-gray-400";
 
   const getCommand =
-    status === "pending" ? "Complete" : status === "ready" ? "Pick Up" : "Undo";
+    status === "pending" ? "Ready" : status === "ready" ? "Pick Up" : "Undo";
 
-  const handleUpdate = (id, status) => {
-    updateOrder(id, status);
+  const handleUpdate = (id: number, status: string) => {
+    updateOrderStatus({ id: id.toString(), status: status });
+    window.location.reload();
   };
   return (
     <Card key={order.id} className={`p-4 border-l-4 ${getColor}`}>
@@ -71,6 +73,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
               size="sm"
               variant="outline"
               className="mr-1 bg-stone-400 text-white"
+              onClick={() => handleUpdate(Number(order.id), "pending")}
             >
               Undo
             </Button>
@@ -79,7 +82,17 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
             size="sm"
             variant="outline"
             className=" bg-green-600 text-white"
-            /* onClick={handleUpdate(order.id, order.status)} */
+            onClick={() => {
+              console.log(order.id, status);
+              handleUpdate(
+                Number(order.id),
+                status === "pending"
+                  ? "ready"
+                  : status === "ready"
+                  ? "completed"
+                  : "pending"
+              );
+            }}
           >
             {getCommand}
           </Button>
