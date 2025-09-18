@@ -59,6 +59,7 @@ const OrderModel = {
 
   getAllOrders: async () => {
     const result = await pool.query(`SELECT * FROM orders ORDER BY due ASC`);
+
     return result.rows;
   },
 

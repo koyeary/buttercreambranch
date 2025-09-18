@@ -1,7 +1,7 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
-const pool = new Pool({
+/* const pool = new Pool({
   ssl: process.env.DB_SSL,
   rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED,
   user: process.env.DB_USER,
@@ -9,11 +9,11 @@ const pool = new Pool({
   database: process.env.DB_NAME,
   password: process.env.DB_PWRD,
   port: process.env.DB_PORT || 5432,
-});
-/* 
+}); */
+
 const pool = new Pool({
   connectionString: process.env.CONNECTION_STRING,
-}); */
+});
 
 pool.on("connect", () => {
   console.log("Connected to the kds database");
