@@ -20,7 +20,7 @@ app.prepare().then(() => {
   server.use("/api", routes);
 
   // Everything else handled by Next.js
-  server.all("*", (req, res) => handle(req, res));
+  server.all(/.*/, (req, res) => handle(req, res));
 
   const port = process.env.PORT || 3000;
   server.listen(port, () => console.log(`Server ready on port ${port}`));
