@@ -1,7 +1,7 @@
 import React from "react";
 import { ChefHat, UserMinus } from "lucide-react";
 
-const NavBar: React.FC = () => {
+const Navbar: React.FC = () => {
   return (
     <header className="shadow-lg shadow-gray-200 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,4 +22,4 @@ const NavBar: React.FC = () => {
   );
 };
 
-export default NavBar;
+export default Navbar;
