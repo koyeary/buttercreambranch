@@ -31,5 +31,5 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "proxy": "http://localhost:3000"
+  "proxy": "http://localhost:3001"
 }

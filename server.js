@@ -27,6 +27,6 @@ app.prepare().then(() => {
   server.use("/api", routes); // Express API
   server.all(/.*/, (req, res) => handle(req, res)); // Next.js fallback
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3001;
   server.listen(port, () => console.log(`Server running on port ${port}`));
 });
