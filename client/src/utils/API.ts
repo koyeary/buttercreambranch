@@ -9,13 +9,10 @@ export const updateOrderStatus = async ({
 }) => {
   console.log(id, status);
   try {
-    const res = await axios.put(
-      "http://localhost:3001/api/orders/status/update",
-      {
-        id,
-        status,
-      }
-    );
+    const res = await axios.put("/api/orders/status/update", {
+      id,
+      status,
+    });
 
     return res;
   } catch (err) {
@@ -25,7 +22,7 @@ export const updateOrderStatus = async ({
 
 export const authenticateUser = async (pin: string) => {
   try {
-    const res = await axios.post("http://localhost:3001/api/users/pin", {
+    const res = await axios.post("/api/users/pin", {
       pin,
     });
 

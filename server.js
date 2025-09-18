@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const next = require("next");
 const cors = require("cors");
+const pool = require("./db");
 const routes = require("./routes");
 
 const dev = process.env.NODE_ENV !== "production";
@@ -11,17 +12,34 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
-  // Middleware
   server.use(express.urlencoded({ extended: true }));
   server.use(express.json());
   server.use(cors());
 
-  // API routes
-  server.use("/api", routes);
+  // 📝 Log every request
+  server.use((req, res, nextMiddleware) => {
+    console.log(`[${req.method}] ${req.url}`);
+    nextMiddleware();
+  });
 
-  // Everything else handled by Next.js
-  server.all(/.*/, (req, res) => handle(req, res));
+  pool.connect();
+
+  // ✅ API routes FIRST
+  server.use(
+    "/api",
+    (req, res, nextMiddleware) => {
+      console.log("→ Handling with Express API");
+      nextMiddleware();
+    },
+    routes
+  );
+
+  // ✅ Next.js catch-all LAST
+  server.all(/.*/, (req, res) => {
+    console.log("→ Handling with Next.js");
+    return handle(req, res);
+  });
 
   const port = process.env.PORT || 3000;
-  server.listen(port, () => console.log(`Server ready on port ${port}`));
+  server.listen(port, () => console.log(`Server running on port ${port}`));
 });

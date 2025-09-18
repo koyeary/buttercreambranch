@@ -30,6 +30,5 @@
     "eslint-config-next": "15.5.3",
     "tailwindcss": "^4",
     "typescript": "^5"
-  },
-  "proxy": "http://localhost:3001"
+  }
 }
