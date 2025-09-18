@@ -19,8 +19,16 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const PORT = process.env.PORT || 3001;
-
-app.listen(PORT, () => {
-  pool.connect();
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}`);
-});
+pool
+  .connect()
+  .then((client) => {
+    client.release();
+    console.log("✅ Connected to database");
+    app.listen(process.env.PORT || 3001, () => {
+      console.log(`🌎  ==> API Server now listening on PORT ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Database connection failed", err);
+    process.exit(1);
+  });
