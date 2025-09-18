@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const pool = new Pool({
   ssl: process.env.DB_SSL,
+  rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED,
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
