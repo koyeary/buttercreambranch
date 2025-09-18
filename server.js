@@ -1,32 +1,33 @@
 require("dotenv").config();
 const express = require("express");
 const next = require("next");
-const cors = require("cors");
-const pool = require("./db");
 const routes = require("./routes");
 
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev, dir: "./client" });
-const handle = app.getRequestHandler();
+const nextApp = next({ dev, dir: "./client" });
+const handle = nextApp.getRequestHandler();
 
-app.prepare().then(() => {
+nextApp.prepare().then(() => {
   const server = express();
 
-  server.use(express.urlencoded({ extended: true }));
+  // Middleware
   server.use(express.json());
-  server.use(cors());
+  server.use(express.urlencoded({ extended: true }));
 
-  // 📝 Log every request
-  server.use((req, res, nextMiddleware) => {
+  // Logging for debugging
+  server.use((req, res, next) => {
     console.log(`[${req.method}] ${req.url}`);
-    nextMiddleware();
+    next();
   });
 
-  pool.connect();
+  // API routes
+  server.use("/api", routes);
 
-  server.use("/api", routes); // Express API
-  server.all(/.*/, (req, res) => handle(req, res)); // Next.js fallback
+  // Next.js catch-all (must be last)
+  server.all(/.*/, (req, res) => handle(req, res));
 
   const port = process.env.PORT || 3001;
-  server.listen(port, () => console.log(`Server running on port ${port}`));
+  server.listen(port, () => {
+    console.log(`🚀 Server ready on http://localhost:${port}`);
+  });
 });

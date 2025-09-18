@@ -4,13 +4,13 @@
   "description": "Kitchen Delivery System",
   "main": "server.js",
   "scripts": {
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
     "start": "node server.js",
     "seed": "node scripts/index.js",
     "server": "nodemon server",
     "client": "cd client && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "next build",
-    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
+    "build": "next build"
   },
   "repository": {
     "type": "git",
